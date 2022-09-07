@@ -1,0 +1,24 @@
+version: '3'
+services: 
+  web:
+    build: 
+      context: .
+    container_name: pos-backend
+    restart: always
+    ports: 
+      - ${PORT}:${PORT}
+    expose:
+      - ${PORT}
+    env_file:
+      - .env
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    # command: 'node docker-entry.js'
+    volumes: 
+      - ./src:/home/node/app/src
+      - ./docker-entry.js:/home/node/app/docker-entry.js
+      - ./package.json:/home/node/app/package.json
+      - ./node_modules:/home/node/app/node_modules
